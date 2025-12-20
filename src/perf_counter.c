@@ -9,25 +9,6 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
-static void initialize_perf_event_attr(struct perf_event_attr* const attr, const uint32_t event_type,
-                                       const uint64_t config, const int32_t group_fd)
-{
-    *attr = (struct perf_event_attr){0};
-
-    attr->size = sizeof(struct perf_event_attr);
-    attr->type = event_type;
-    attr->config = config;
-
-    if (group_fd == -1)
-    {
-        attr->pinned = 1;  // Always schedule on CPU
-    }
-
-    attr->disabled = 1;        // Must be enabled manually.
-    attr->exclude_kernel = 1;  // Don't count kernel
-    attr->exclude_hv = 1;      // Don't count hypervisor
-}
-
 static int32_t sys_perf_event_open(const struct perf_event_attr* const attr, const int32_t group_fd)
 {
     // pid = 0, cpu = -1: Measure the calling process/thread on any CPU.
@@ -83,8 +64,21 @@ struct perf_counter perf_counter_open(const struct perf_event_attr* const attr, 
 
 struct perf_counter perf_counter_open_by_id(const uint32_t event_type, const uint64_t config, const int32_t group_fd)
 {
-    struct perf_event_attr attr;
-    initialize_perf_event_attr(&attr, event_type, config, group_fd);
+    struct perf_event_attr attr = (struct perf_event_attr){0};
+
+    attr.size = sizeof(struct perf_event_attr);
+    attr.type = event_type;
+    attr.config = config;
+
+    if (group_fd == -1)
+    {
+        attr.pinned = 1;  // Always schedule on CPU
+    }
+
+    attr.disabled = 1;        // Must be enabled manually.
+    attr.exclude_kernel = 1;  // Don't count kernel
+    attr.exclude_hv = 1;      // Don't count hypervisor
+
     return perf_counter_open(&attr, group_fd);
 }
 
