@@ -18,7 +18,7 @@ extern "C"
     };
 
     struct perf_counter perf_counter_open(const struct perf_event_attr* attr, int32_t group_fd);
-    struct perf_counter perf_counter_open_by_id(uint32_t event_type, uint64_t config, int32_t group_fd);
+    struct perf_counter perf_counter_open_by_id(uint32_t event_type, uint64_t event_config, int32_t group_fd);
     void perf_counter_close(struct perf_counter* pc);
     int32_t perf_counter_enable(const struct perf_counter* pc);
     int32_t perf_counter_disable(const struct perf_counter* pc);

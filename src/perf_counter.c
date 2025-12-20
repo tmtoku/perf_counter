@@ -62,13 +62,14 @@ struct perf_counter perf_counter_open(const struct perf_event_attr* const attr, 
     return (struct perf_counter){.fd = fd, .metadata_page = metadata_page};
 }
 
-struct perf_counter perf_counter_open_by_id(const uint32_t event_type, const uint64_t config, const int32_t group_fd)
+struct perf_counter perf_counter_open_by_id(const uint32_t event_type, const uint64_t event_config,
+                                            const int32_t group_fd)
 {
     struct perf_event_attr attr = (struct perf_event_attr){0};
 
     attr.size = sizeof(struct perf_event_attr);
     attr.type = event_type;
-    attr.config = config;
+    attr.config = event_config;
 
     if (group_fd == -1)
     {
