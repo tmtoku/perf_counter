@@ -1,0 +1,2 @@
+add_executable(list_all_events list_all_events.c)
+target_link_libraries(list_all_events PRIVATE perf_counter::perf_counter)

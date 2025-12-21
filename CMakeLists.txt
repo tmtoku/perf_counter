@@ -4,6 +4,12 @@ project(perf_counter LANGUAGES C VERSION 0.1.0)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 #
+# CMake options
+#
+option(PERF_COUNTER_BUILD_EXAMPLES "Build example programs" ON)
+message(STATUS "PERF_COUNTER_BUILD_EXAMPLES: ${PERF_COUNTER_BUILD_EXAMPLES}")
+
+#
 # Build type default: Release
 #
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -84,3 +90,6 @@ else()
     message(WARNING "Package 'libpfm' not found")
 endif()
 
+if (PERF_COUNTER_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
