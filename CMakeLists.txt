@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(perf_counter LANGUAGES C CXX VERSION 0.1.0)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 #
 # CMake options
 #
@@ -16,6 +14,17 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "No build type selected, default to Release")
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (default Release)" FORCE)
 endif()
+
+#
+# C11/C++11 standards
+#
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 #
 # Link-time optimization (LTO)
@@ -35,12 +44,7 @@ add_library(perf_counter
 )
 add_library(perf_counter::perf_counter ALIAS perf_counter)
 
-set_target_properties(perf_counter PROPERTIES
-    C_STANDARD 11
-    C_STANDARD_REQUIRED ON
-    C_EXTENSIONS OFF
-    POSITION_INDEPENDENT_CODE ON
-)
+set_target_properties(perf_counter PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(perf_counter PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

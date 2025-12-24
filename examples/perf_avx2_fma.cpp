@@ -96,7 +96,7 @@ void print_benchmark_result(const std::string& benchmark_label, const std::uint6
 
 int main()
 {
-    constexpr auto NUM_KERNEL_LOOPS = std::int32_t{100'000};
+    constexpr auto NUM_KERNEL_LOOPS = std::int32_t{100000};
     constexpr auto LATENCY_INSTS_PER_LOOP = std::uint64_t{12};
     constexpr auto THROUGHPUT_INSTS_PER_LOOP = std::uint64_t{12};
     constexpr auto LATENCY_TOTAL_INSTS = LATENCY_INSTS_PER_LOOP * NUM_KERNEL_LOOPS;
